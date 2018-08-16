@@ -2,8 +2,12 @@ package remote.config.chunk;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.configuration.JobRegistry;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.launch.JobOperator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.integration.chunk.ChunkMessageChannelItemWriter;
@@ -20,6 +24,8 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.jms.dsl.Jms;
 import org.springframework.messaging.PollableChannel;
+import org.springframework.transaction.PlatformTransactionManager;
+import remote.incrementer.KohlsJobIncrementer;
 import remote.listener.ChunkCountListener;
 import remote.listener.ChunkJobExecutionListener;
 import remote.pojo.KohlsUser;
@@ -28,10 +34,14 @@ import remote.reader.KohlsJdbcChunkUserReader;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableBatchProcessing
 public class ChunkMasterConfiguration {
 
     @Value("${broker.url}")
     private String brokerUrl;
+
+    @Value("${chunk.size}")
+    private int chunkSize;
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -40,7 +50,19 @@ public class ChunkMasterConfiguration {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
+    private JobOperator jobOperator;
+
+    @Autowired
+    private JobRegistry jobRegistry;
+
+    @Autowired
+    private JobLauncher launcher;
+
+    @Autowired
     private KohlsJdbcChunkUserReader kohlsJdbcUserReader;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Autowired
     private DataSource dataSource;
@@ -102,12 +124,14 @@ public class ChunkMasterConfiguration {
         return chunkMessageChannelItemWriter;
     }
 
+
     @Bean
     public TaskletStep masterStep() {
         return this.stepBuilderFactory.get("masterStep")
-                .<KohlsUser, KohlsUser>chunk(1000)
+                .transactionManager(transactionManager).<KohlsUser, KohlsUser>chunk(chunkSize)
                 .reader(kohlsJdbcUserReader.kohlsUserItemReader(this.dataSource))
                 .writer(itemWriter())
+                .listener(new ChunkJobExecutionListener())
                 .listener(new ChunkCountListener())
                 .build();
     }
@@ -115,11 +139,35 @@ public class ChunkMasterConfiguration {
     @Bean(name = "remoteChunkingJob")
     @Profile("master")
     public Job remoteChunkingJob() {
+
         return this.jobBuilderFactory.get("remoteChunkingJob")
                 .listener(new ChunkJobExecutionListener())
-                .incrementer(new RunIdIncrementer())
+                .incrementer(new KohlsJobIncrementer())
+                //.incrementer(new RunIdIncrementer())
                 .start(masterStep())
                 .build();
     }
+
+//    @Bean
+//    @Profile("master")
+//    public Job runBatch() {
+//
+//        Job job = remoteChunkingJob();
+//
+//
+//        try {
+//
+//            JobParameters jobParameters = new JobParameters();
+//           // launcher.run(job, jobParameters);
+//            jobOperator.startNextInstance("remoteChunkingJob");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Something went wrong");
+//        }
+//
+//        System.out.println("DONEYYYY");
+//        return job;
+//    }
 
 }

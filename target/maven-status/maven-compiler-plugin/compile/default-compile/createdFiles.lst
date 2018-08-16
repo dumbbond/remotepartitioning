@@ -1,11 +1,14 @@
 remote/pojo/KohlsBarcode.class
+remote/listener/ChunkStepExecutionListener.class
 remote/reader/KohlsJdbcChunkUserReader.class
 remote/map/KohlsUserMapper.class
 remote/partition/ColumnRangePartitioner.class
 remote/config/chunk/ChunkMasterConfiguration.class
 remote/reader/KohlsJdbcPagingUserReader.class
 remote/BatchApplication.class
+remote/setter/KohlsUserPreparedStmSetter.class
 remote/listener/ChunkCountListener.class
+remote/incrementer/KohlsJobIncrementer.class
 remote/config/rest/RestConfiguration.class
 remote/pojo/KohlsUser.class
 remote/config/chunk/ChunkWorkerConfiguration.class

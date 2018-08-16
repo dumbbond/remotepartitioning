@@ -23,6 +23,7 @@ import org.springframework.messaging.PollableChannel;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import remote.pojo.KohlsUser;
 import remote.processor.KohlsBarcodeProcessor;
+import remote.setter.KohlsUserPreparedStmSetter;
 
 import javax.sql.DataSource;
 
@@ -31,6 +32,9 @@ public class ChunkWorkerConfiguration {
 
     @Value("${broker.url}")
     private String brokerUrl;
+
+    @Value("${spring.batch.database.insert.statement}")
+    private String insertStatement;
 
     @Autowired
     private DataSource dataSource;
@@ -88,7 +92,9 @@ public class ChunkWorkerConfiguration {
 
         JdbcBatchItemWriter<KohlsUser> itemWriter = new JdbcBatchItemWriter<>();
         itemWriter.setDataSource(dataSource);
-        itemWriter.setSql("INSERT INTO KOHLS.KOHLS_BARCODE VALUES (:id, :name, :barcode)");
+        //itemWriter.setSql("INSERT INTO KOHLS.KOHLS_BARCODE VALUES (:id, :name, :barcode)");
+        itemWriter.setSql(insertStatement);
+        itemWriter.setItemPreparedStatementSetter(new KohlsUserPreparedStmSetter());
         itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
         itemWriter.afterPropertiesSet();
         return  itemWriter;

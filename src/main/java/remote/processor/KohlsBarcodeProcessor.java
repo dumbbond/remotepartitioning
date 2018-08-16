@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.CircuitBreaker;
@@ -14,6 +15,9 @@ import remote.pojo.KohlsUser;
 
 
 public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser> {
+
+    @Value("${barcode.service.url}")
+    private String barcodeServiceUrl;
 
     @Autowired
     private  RestTemplate restTemplate;
@@ -35,13 +39,14 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
 
 
         ResponseEntity<KohlsBarcode> responseEntity = this.restTemplate.exchange(
-                "http://10.0.2.218:8090/barcode/{email}",
+                barcodeServiceUrl,
                 HttpMethod.GET,
                 null,
                 KohlsBarcode.class,
                 user.getEmail()
         );
 
+        user.setBarcode(responseEntity.getBody().getBarcode());
         return user;
     }
 
