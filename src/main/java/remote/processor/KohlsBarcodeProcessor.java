@@ -75,7 +75,6 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
 
            public void setValues(PreparedStatement ps, int i) throws SQLException {
 
-               System.out.println("trying");
                 ps.setString(1, user.getStatus());
                 ps.setLong(2, user.getId());
            }
@@ -84,8 +83,6 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
                return 1;
            }
         });
-
-       //jdbcTemplate.batchUpdate("UPDATE KOHLS.LOYALTY_ACCOUNTS SET STATUS = '" +user.getStatus() +  "' WHERE ID = " + user.getId());
 
     }
 
