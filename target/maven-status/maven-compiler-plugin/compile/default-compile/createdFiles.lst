@@ -5,6 +5,7 @@ remote/map/KohlsUserMapper.class
 remote/partition/ColumnRangePartitioner.class
 remote/config/chunk/ChunkMasterConfiguration.class
 remote/reader/KohlsJdbcPagingUserReader.class
+remote/config/BatchConfiguration.class
 remote/BatchApplication.class
 remote/setter/KohlsUserPreparedStmSetter.class
 remote/listener/ChunkCountListener.class

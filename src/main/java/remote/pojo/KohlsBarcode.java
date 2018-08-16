@@ -9,15 +9,15 @@ public class KohlsBarcode implements Serializable {
 
     private static final long serialVersionUID = 1l;
 
-    private String email;
+    private String setLoyaltyAccountEmail;
     private String barcode;
 
-    public String getEmail() {
-        return email;
+    public String getSetLoyaltyAccountEmail() {
+        return setLoyaltyAccountEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSetLoyaltyAccountEmail(String setLoyaltyAccountEmail) {
+        this.setLoyaltyAccountEmail = setLoyaltyAccountEmail;
     }
 
     public String getBarcode() {
@@ -28,14 +28,10 @@ public class KohlsBarcode implements Serializable {
         this.barcode = barcode;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     @Override
     public String toString() {
         return "KohlsBarcode{" +
-                "email='" + email + '\'' +
+                "setLoyaltyAccountEmail='" + setLoyaltyAccountEmail + '\'' +
                 ", barcode='" + barcode + '\'' +
                 '}';
     }

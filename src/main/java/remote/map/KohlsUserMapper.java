@@ -14,11 +14,9 @@ public class KohlsUserMapper implements RowMapper<KohlsUser> {
     @Override
     public KohlsUser mapRow(ResultSet rs, int rowNum) throws SQLException {
         KohlsUser user = new KohlsUser();
-        user.setId(rs.getString("ID"));
+        user.setId(Long.valueOf(rs.getString("ID")));
         user.setStatus(rs.getString("STATUS"));
-        user.setName(rs.getString("NAME"));
-        user.setEmail(rs.getString("EMAIL"));
-        //System.out.println(user);
+        user.setLoyaltyAccountEmail(rs.getString("LOYALTY_ACCOUNT_EMAIL"));
         return user;
     }
 }

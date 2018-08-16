@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.retry.annotation.CircuitBreaker;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.web.client.RestTemplate;
@@ -19,8 +20,14 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
     @Value("${barcode.service.url}")
     private String barcodeServiceUrl;
 
+//    @Value("${spring.batch.database.update.statement}")
+//    private String updateStatement;
+
     @Autowired
     private  RestTemplate restTemplate;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -28,7 +35,11 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
     public KohlsUser fallback(KohlsUser user) {
 
         user.setBarcode("ERROR");
-        user.setEmail("ERROR");
+        user.setLoyaltyAccountEmail("ERROR");
+
+        user.setStatus("FAILED");
+
+        updateStatus(user);
 
         return user;
     }
@@ -37,17 +48,28 @@ public class KohlsBarcodeProcessor implements ItemProcessor<KohlsUser, KohlsUser
     @Override
     public KohlsUser process(KohlsUser user) throws Exception {
 
-
         ResponseEntity<KohlsBarcode> responseEntity = this.restTemplate.exchange(
                 barcodeServiceUrl,
                 HttpMethod.GET,
                 null,
                 KohlsBarcode.class,
-                user.getEmail()
+                user.getLoyaltyAccountEmail()
         );
 
+        user.setStatus("COMPLETED");
+
         user.setBarcode(responseEntity.getBody().getBarcode());
+
+        updateStatus(user);
+
         return user;
+    }
+
+    private void updateStatus(KohlsUser user) {
+
+        // will think how to optimise it
+       jdbcTemplate.batchUpdate("UPDATE KOHLS.LOYALTY_ACCOUNTS SET STATUS = '" +user.getStatus() +  "' WHERE ID = " + user.getId());
+
     }
 
 }

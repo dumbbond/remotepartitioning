@@ -92,7 +92,6 @@ public class ChunkWorkerConfiguration {
 
         JdbcBatchItemWriter<KohlsUser> itemWriter = new JdbcBatchItemWriter<>();
         itemWriter.setDataSource(dataSource);
-        //itemWriter.setSql("INSERT INTO KOHLS.KOHLS_BARCODE VALUES (:id, :name, :barcode)");
         itemWriter.setSql(insertStatement);
         itemWriter.setItemPreparedStatementSetter(new KohlsUserPreparedStmSetter());
         itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());

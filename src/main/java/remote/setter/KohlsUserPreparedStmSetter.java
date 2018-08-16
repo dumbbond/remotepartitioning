@@ -10,8 +10,8 @@ public class KohlsUserPreparedStmSetter implements ItemPreparedStatementSetter<K
 
     @Override
     public void setValues(KohlsUser user, PreparedStatement ps) throws SQLException {
-        ps.setInt(1, Integer.valueOf(user.getId()));
-        ps.setString(2, user.getName());
+        ps.setLong(1, user.getId());
+        ps.setString(2, user.getLoyaltyAccountEmail());
         ps.setString(3, user.getBarcode());
     }
 }

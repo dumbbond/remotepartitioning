@@ -8,7 +8,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.JobOperator;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.integration.chunk.ChunkMessageChannelItemWriter;
 import org.springframework.batch.item.ItemWriter;
@@ -143,31 +142,8 @@ public class ChunkMasterConfiguration {
         return this.jobBuilderFactory.get("remoteChunkingJob")
                 .listener(new ChunkJobExecutionListener())
                 .incrementer(new KohlsJobIncrementer())
-                //.incrementer(new RunIdIncrementer())
                 .start(masterStep())
                 .build();
     }
-
-//    @Bean
-//    @Profile("master")
-//    public Job runBatch() {
-//
-//        Job job = remoteChunkingJob();
-//
-//
-//        try {
-//
-//            JobParameters jobParameters = new JobParameters();
-//           // launcher.run(job, jobParameters);
-//            jobOperator.startNextInstance("remoteChunkingJob");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Something went wrong");
-//        }
-//
-//        System.out.println("DONEYYYY");
-//        return job;
-//    }
 
 }

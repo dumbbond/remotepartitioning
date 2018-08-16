@@ -6,54 +6,137 @@ public class KohlsUser implements Serializable {
 
     private static final long serialVersionUID = 1l;
 
-    private String id;
-    private String name;
-    private String email;
-    private String created_ts;
-    private String updated_ts;
-    private String status;
-    private String barcode;
+   private Long id;
+   private Long eventId;
+   private String LoyaltyAccountEmail;
+   private Long rewardId;
+   private String rewardDollarAmount;
+   private int rewardValue;
+   private Long loyaltyAccountId;
+   private Long loyaltyServiceId;
+   private String rewardDate;
+   private String offerId;
+   private String offerName;
+   private String issueDate;
+   private String pointValue;
+   private String expirationDate;
+   private String status;
+   private String barcode;
 
-    public KohlsUser() {}
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getEventId() {
+        return eventId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLoyaltyAccountEmail() {
+        return LoyaltyAccountEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLoyaltyAccountEmail(String loyaltyAccountEmail) {
+        LoyaltyAccountEmail = loyaltyAccountEmail;
     }
 
-    public String getCreated_ts() {
-        return created_ts;
+    public Long getRewardId() {
+        return rewardId;
     }
 
-    public void setCreated_ts(String created_ts) {
-        this.created_ts = created_ts;
+    public void setRewardId(Long rewardId) {
+        this.rewardId = rewardId;
     }
 
-    public String getUpdated_ts() {
-        return updated_ts;
+    public String getRewardDollarAmount() {
+        return rewardDollarAmount;
     }
 
-    public void setUpdated_ts(String updated_ts) {
-        this.updated_ts = updated_ts;
+    public void setRewardDollarAmount(String rewardDollarAmount) {
+        this.rewardDollarAmount = rewardDollarAmount;
+    }
+
+    public int getRewardValue() {
+        return rewardValue;
+    }
+
+    public void setRewardValue(int rewardValue) {
+        this.rewardValue = rewardValue;
+    }
+
+    public Long getLoyaltyAccountId() {
+        return loyaltyAccountId;
+    }
+
+    public void setLoyaltyAccountId(Long loyaltyAccountId) {
+        this.loyaltyAccountId = loyaltyAccountId;
+    }
+
+    public Long getLoyaltyServiceId() {
+        return loyaltyServiceId;
+    }
+
+    public void setLoyaltyServiceId(Long loyaltyServiceId) {
+        this.loyaltyServiceId = loyaltyServiceId;
+    }
+
+    public String getRewardDate() {
+        return rewardDate;
+    }
+
+    public void setRewardDate(String rewardDate) {
+        this.rewardDate = rewardDate;
+    }
+
+    public String getOfferId() {
+        return offerId;
+    }
+
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
+    }
+
+    public String getOfferName() {
+        return offerName;
+    }
+
+    public void setOfferName(String offerName) {
+        this.offerName = offerName;
+    }
+
+    public String getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(String issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public String getPointValue() {
+        return pointValue;
+    }
+
+    public void setPointValue(String pointValue) {
+        this.pointValue = pointValue;
+    }
+
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public String getStatus() {
@@ -72,19 +155,25 @@ public class KohlsUser implements Serializable {
         this.barcode = barcode;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
     @Override
     public String toString() {
         return "KohlsUser{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", created_ts='" + created_ts + '\'' +
-                ", updated_ts='" + updated_ts + '\'' +
+                "id=" + id +
+                ", eventId=" + eventId +
+                ", LoyaltyAccountEmail='" + LoyaltyAccountEmail + '\'' +
+                ", rewardId=" + rewardId +
+                ", rewardDollarAmount='" + rewardDollarAmount + '\'' +
+                ", rewardValue=" + rewardValue +
+                ", loyaltyAccountId=" + loyaltyAccountId +
+                ", loyaltyServiceId=" + loyaltyServiceId +
+                ", rewardDate='" + rewardDate + '\'' +
+                ", offerId='" + offerId + '\'' +
+                ", offerName='" + offerName + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", pointValue='" + pointValue + '\'' +
+                ", expirationDate='" + expirationDate + '\'' +
                 ", status='" + status + '\'' +
+                ", barcode='" + barcode + '\'' +
                 '}';
     }
 }
