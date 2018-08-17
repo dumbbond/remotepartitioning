@@ -13,5 +13,6 @@ public class KohlsUserPreparedStmSetter implements ItemPreparedStatementSetter<K
         ps.setLong(1, user.getId());
         ps.setString(2, user.getLoyaltyAccountEmail());
         ps.setString(3, user.getBarcode());
+        ps.setLong(4, user.getPin());
     }
 }

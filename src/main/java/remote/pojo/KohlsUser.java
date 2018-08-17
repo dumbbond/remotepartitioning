@@ -7,11 +7,11 @@ public class KohlsUser implements Serializable {
     private static final long serialVersionUID = 1l;
 
    private Long id;
-   private Long eventId;
+   private String eventId;
    private String LoyaltyAccountEmail;
    private Long rewardId;
    private String rewardDollarAmount;
-   private int rewardValue;
+   private Double rewardValue;
    private Long loyaltyAccountId;
    private Long loyaltyServiceId;
    private String rewardDate;
@@ -22,6 +22,7 @@ public class KohlsUser implements Serializable {
    private String expirationDate;
    private String status;
    private String barcode;
+   private Integer pin;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -35,11 +36,11 @@ public class KohlsUser implements Serializable {
         this.id = id;
     }
 
-    public Long getEventId() {
+    public String getEventId() {
         return eventId;
     }
 
-    public void setEventId(Long eventId) {
+    public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
@@ -67,11 +68,11 @@ public class KohlsUser implements Serializable {
         this.rewardDollarAmount = rewardDollarAmount;
     }
 
-    public int getRewardValue() {
+    public Double getRewardValue() {
         return rewardValue;
     }
 
-    public void setRewardValue(int rewardValue) {
+    public void setRewardValue(Double rewardValue) {
         this.rewardValue = rewardValue;
     }
 
@@ -155,11 +156,19 @@ public class KohlsUser implements Serializable {
         this.barcode = barcode;
     }
 
+    public Integer getPin() {
+        return pin;
+    }
+
+    public void setPin(Integer pin) {
+        this.pin = pin;
+    }
+
     @Override
     public String toString() {
         return "KohlsUser{" +
                 "id=" + id +
-                ", eventId=" + eventId +
+                ", eventId='" + eventId + '\'' +
                 ", LoyaltyAccountEmail='" + LoyaltyAccountEmail + '\'' +
                 ", rewardId=" + rewardId +
                 ", rewardDollarAmount='" + rewardDollarAmount + '\'' +
@@ -174,6 +183,7 @@ public class KohlsUser implements Serializable {
                 ", expirationDate='" + expirationDate + '\'' +
                 ", status='" + status + '\'' +
                 ", barcode='" + barcode + '\'' +
+                ", pin=" + pin +
                 '}';
     }
 }

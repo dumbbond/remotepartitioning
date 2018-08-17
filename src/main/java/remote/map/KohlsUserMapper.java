@@ -17,6 +17,8 @@ public class KohlsUserMapper implements RowMapper<KohlsUser> {
         user.setId(Long.valueOf(rs.getString("ID")));
         user.setStatus(rs.getString("STATUS"));
         user.setLoyaltyAccountEmail(rs.getString("LOYALTY_ACCOUNT_EMAIL"));
+        user.setEventId(rs.getString("EVENT_ID"));
+        user.setRewardValue(rs.getDouble("REWARD_VALUE"));
         return user;
     }
 }
