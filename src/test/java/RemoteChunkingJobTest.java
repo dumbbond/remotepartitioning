@@ -24,7 +24,7 @@
 //    @ContextConfiguration(classes = {
 //            RemoteChunkingJobTest.JobRunnerConfiguration.class,
 //            ChunkMasterConfiguration.class})
-//    @PropertySource("classpath:application.properties")
+//    @PropertySource("classpath:application.yml")
 //    public class RemoteChunkingJobTest {
 //
 //        @Value("${broker.url}")
