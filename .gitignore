@@ -1,2 +1,17 @@
+### Maven template
 target/
+
+### IntelliJ project files
 .idea/
+*.iml
+out/
+### Eclipse template
+.metadata
+bin/
+tmp/
+local.properties
+.settings/
+log/
+
+### activemq logs
+/activemq-data
