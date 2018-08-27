@@ -6,7 +6,7 @@ import remote.pojo.KohlsUser;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class KohlsUserPreparedStmSetter implements ItemPreparedStatementSetter<KohlsUser> {
+public class KohlsBarcodePreparedStmSetter implements ItemPreparedStatementSetter<KohlsUser> {
 
     @Override
     public void setValues(KohlsUser user, PreparedStatement ps) throws SQLException {

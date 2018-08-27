@@ -13,7 +13,7 @@ public class ChunkCountListener implements ChunkListener {
 
     private MessageFormat fmt = new MessageFormat("{0} items processed");
 
-    private int loggingInterval = 10000;
+    private int loggingInterval = 1000;
 
     @Override
     public void beforeChunk(ChunkContext context) {

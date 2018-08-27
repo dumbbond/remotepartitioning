@@ -1,6 +1,5 @@
 package remote.config;
 
-import org.springframework.batch.core.configuration.BatchConfigurationException;
 import org.springframework.batch.core.configuration.JobRegistry;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
+@PropertySource("classpath:application.yml")
 public class BatchConfiguration{
 
     @Value("${spring.batch.databaseType}")
@@ -72,29 +73,21 @@ public class BatchConfiguration{
         return jobLauncher;
     }
 
-    @Bean
-    public JobRepository jobRepository(final DataSource dataSource, final PlatformTransactionManager transactionManager) {
-
-        final JobRepositoryFactoryBean bean = new JobRepositoryFactoryBean();
-        bean.setDatabaseType(databaseType);
-        bean.setDataSource(dataSource);
-//        if (schemaName != null) {
-//            bean.setTablePrefix(schemaName);
-//        }
-        bean.setTransactionManager(transactionManager);
-        try {
-            bean.afterPropertiesSet();
-            return bean.getObject();
-        } catch (final Exception e) {
-            throw new BatchConfigurationException(e);
-        }
+    public JobRepository createJobRepository() throws Exception {
+        JobRepositoryFactoryBean factory = new JobRepositoryFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setTransactionManager(transactionManager);
+        factory.setIsolationLevelForCreate("ISOLATION_SERIALIZABLE");
+        factory.setTablePrefix(schemaName);
+        factory.setMaxVarCharLength(1000);
+        factory.setDatabaseType(databaseType);
+        return factory.getObject();
     }
 
     @Bean
     public JobExplorer jobExplorer(final DataSource dataSource) throws Exception {
         final JobExplorerFactoryBean bean = new JobExplorerFactoryBean();
         bean.setDataSource(dataSource);
-        //bean.setTablePrefix("KOHLS");
         bean.setJdbcOperations(new JdbcTemplate(dataSource));
         bean.afterPropertiesSet();
         return bean.getObject();
